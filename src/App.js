@@ -1,25 +1,27 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import Giphy from './Giphy.js'
 
 class App extends Component {
+  constructor(){
+    super()
+    this.state={
+      giphies:[]
+    }
+  }
+  componentDidMount(){
+    fetch(`http://localhost:3000/giphies`)
+    .then(resp => resp.json())
+    .then(data => this.setState({giphies: data}))
+  }
+
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+
+          {this.state.giphies.map(giphy => <Giphy title={giphy.title} embedUrl={giphy.embedUrl} />)}
+
       </div>
     );
   }
